@@ -1,4 +1,3 @@
-// import type { CLICommand } from "./command.js";
 import { State } from "./state.js";
 
 export function commandHelp(state: State) {
