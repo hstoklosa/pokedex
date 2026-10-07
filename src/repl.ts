@@ -1,6 +1,6 @@
 import { createInterface } from "node:readline";
 
-import { getCommands } from "./command.js";
+import { getCommands } from "./commands.js";
 
 export function cleanInput(input: string): string[] {
   if (!input.length) return [];
@@ -22,14 +22,20 @@ export function startREPL() {
       return;
     }
 
-    const cmds = getCommands();
-    const cmd = cmds[input[0]];
+    const cmdName = input[0];
 
-    if (cmd) {
-      cmd.callback(cmds);
-    } else {
-      console.log("Unknown command");
+    const cmds = getCommands();
+    const cmd = cmds[cmdName];
+
+    if (!cmd) {
+      console.log(
+        `Unknown command: "${cmdName}". Type "help" for a list of commands.`,
+      );
+      rl.prompt();
+      return;
     }
+
+    cmd.callback(cmds);
 
     rl.prompt();
   });
